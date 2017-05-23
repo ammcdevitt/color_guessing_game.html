@@ -1,0 +1,66 @@
+<html>
+
+<head>
+   <title>Color Guessing Game</title>
+</head>
+
+<body onload="do_game()">
+
+   <script>
+
+      //DECLARE GLOBAL VARIABLES
+      var colors = ['azure', 'chartreuse', 'crimson', 'fuchsia', 'gold', 'indigo', 'khaki', 'lavender', 'maroon', 'orchid', 'plum', 'sienna', 'teal']; //since array is already sorted, do not need to use sort() method (eg colors.sort())
+      var colors_msg = colors.join(', '); //creates a comma & a space btwn all elements in array. join method joings elements of array into a string & returns string, separated by a comma and a space
+      var colors_len = colors.length; //equals 13
+      var target_idx;
+      var target;
+      var num_of_guesses = 0;
+      var player_input;
+      var player_guess;
+      var finished = false;
+
+      //MAIN GAME FUNCTION
+      function do_game() {
+         target_idx = Math.floor(Math.random() * colors_len); //randomly chosen number from 0 to 12 (the indices of the array). Using floor rounds down, so that a float is not returned.
+         target = colors[target_idx]; //randomly selected color in array
+         while (!finished) { //14 is one number more than the length of the array
+            player_input = prompt("I am thinking of one of these colors:\n\n" + colors_msg + "\n\n What color am I thinking of?");
+            player_guess = player_input.toLowerCase(); //switch player's input to all lower case, so that the indices of the guess and target colors can be compared
+            num_of_guesses++;
+            finished = check_guess();
+         }
+
+         function check_guess() {
+            var guess_idx = colors.indexOf(player_guess); //indexOf() method returns the index of (the position of) the first occurrence of a specified text in a string
+
+            if (guess_idx < 0) {
+               alert("Sorry, I don’t recognize your color. \n\n Please try again");
+               return false;
+            }
+
+            //PLAYER'S GUESS IS ALPHABETICALLY HIGHER THAN CORRECT COLOR
+            else if (guess_idx > target_idx) {
+               alert("Sorry, your guess is not correct! \n\n Hint: your color is alphabetically higher than mine. \n\n Please try again");
+               return false;
+            }
+
+            //PLAYER'S GUESS IS ALPHABETICALLY LOWER THAN CORRECT COLOR
+            else if (guess_idx < target_idx) {
+               alert("Sorry, your guess is not correct! \n\n Hint: your color is alphabetically lower than mine. \n\n Please try again");
+               return false;
+            }
+
+            //PLAYER GUESSES CORRECT COLOR. GETS AND CHANGES COLOR OF BACKGROUND
+            else if (guess_idx == target_idx) {
+               alert("Congratulations! You have guessed the color! \n\n It took you " + num_of_guesses + " guesses to finish the game! \n\n You can see the color in the background");
+               body_color = document.getElementByTagName('body')[0];
+               body_color.style.background = target;
+               return true;
+            }
+         }
+      }
+   </script>
+
+</body>
+
+</html>
