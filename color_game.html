@@ -53,7 +53,7 @@
             //PLAYER GUESSES CORRECT COLOR. GETS AND CHANGES COLOR OF BACKGROUND
             else if (guess_idx == target_idx) {
                alert("Congratulations! You have guessed the color! \n\n It took you " + num_of_guesses + " guesses to finish the game! \n\n You can see the color in the background");
-               body_color = document.getElementByTagName('body')[0];
+               body_color = document.getElementsByTagName('body')[0];
                body_color.style.background = target;
                return true;
             }
